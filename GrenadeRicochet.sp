@@ -1,4 +1,3 @@
-
 #include <sourcemod>
 #include <sdktools>
 
@@ -48,7 +47,6 @@ public Action SetWeaponScale(int client, int args)
 	{
 		GetCmdArg(1, argGrenade, sizeof(argGrenade));
 		_WeaponPushScale = StringToFloat(argGrenade);
-		PrintToChatAll("MEME %f",_WeaponPushScale );
 		return Plugin_Handled;
 	}
 	ReplyToCommand(client, "Usage: sm_SetWeaponScale <number>");
@@ -82,7 +80,6 @@ public Action Event_BulletImpact(Event event, const char[] name, bool dontBroadc
 			GetEdictClassname(x, strName, 128); 
 			
 			if(StrContains(strName,"projectile",false) != -1){
-				PrintToChatAll("%s TEST",strName);
 				GetClientWeapon(clientPlayer,weaponName,sizeof(weaponName));
 				
 				GetEntPropVector(x, Prop_Data, "m_vecVelocity", vector);
