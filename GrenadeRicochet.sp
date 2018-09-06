@@ -9,7 +9,7 @@ public Plugin:myinfo =
 {
 	name =  "Grenade Ricochet",
 	author = "Mith",
-	description = "When someone shoots a grenade instead of tanking through it, it rebounds depending on the players position and weapon used.",
+	description = "When someone shoots a grenade instead of tanking through it, it rebounds depending on the player's weapon damage.",
 	version = "1.0",
 	url = ""
 };
