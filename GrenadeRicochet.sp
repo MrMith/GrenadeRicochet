@@ -34,15 +34,15 @@ int x = MAXPLAYERS+1;
 
 public OnPluginStart()
 {
-	RegAdminCmd("sm_SetGrenadeScale", SetGrenadeScale, ADMFLAG_ROOT, "Sets how far grenades will fly depending on weapon damage ( def. 1 )");
+	RegAdminCmd("sm_SetWeaponScale", SetWeaponScale, ADMFLAG_ROOT, "Sets how far grenades will fly based on weapon damage ( def. 1 )");
 	HookEvent("bullet_impact", Event_BulletImpact, EventHookMode_Post);
 }
 
-public Action SetGrenadeScale(int client, int args)
+public Action SetWeaponScale(int client, int args)
 {
 	if (args < 1)
 	{
-		ReplyToCommand(client, "Usage: sm_SetGrenadeScale <number>");
+		ReplyToCommand(client, "Usage: sm_SetWeaponScale <number>");
 		return Plugin_Handled;
 	}else if(args == 1)
 	{
@@ -51,7 +51,7 @@ public Action SetGrenadeScale(int client, int args)
 		PrintToChatAll("MEME %f",_WeaponPushScale );
 		return Plugin_Handled;
 	}
-	ReplyToCommand(client, "Usage: sm_SetGrenadeScale <number>");
+	ReplyToCommand(client, "Usage: sm_SetWeaponScale <number>");
 	ReplyToCommand(client, "You enter too many arguments!");
 	return Plugin_Handled;
 }
