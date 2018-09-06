@@ -1,12 +1,4 @@
 
-#define DEBUG
-
-#define PLUGIN_NAME           "Grenade Ricochet"
-#define PLUGIN_AUTHOR         "Mith"
-#define PLUGIN_DESCRIPTION    "When someone shoots a grenade instead of tanking through it, it rebounds depending on the players position and weapon used."
-#define PLUGIN_VERSION        "1.0"
-#define PLUGIN_URL            ""
-
 #include <sourcemod>
 #include <sdktools>
 
@@ -15,14 +7,12 @@
 
 public Plugin:myinfo =
 {
-	name = PLUGIN_NAME,
-	author = PLUGIN_AUTHOR,
-	description = PLUGIN_DESCRIPTION,
-	version = PLUGIN_VERSION,
-	url = PLUGIN_URL
+	name =  "Grenade Ricochet",
+	author = "Mith",
+	description = "When someone shoots a grenade instead of tanking through it, it rebounds depending on the players position and weapon used.",
+	version = "1.0",
+	url = ""
 };
-
-// variables
 
 //weapon name -> weapon damage ex. _WeaponNames[0][0] = "weapon_deagle", _WeaponDamage[0][0] = 63.
 char _WeaponNames[][] = {"weapon_deagle","weapon_revolver","weapon_glock","weapon_elite","weapon_tec9","weapon_mp9","weapon_mp7","weapon_bizon","weapon_mp5sd","weapon_cz75a","weapon_xm1014","weapon_mag7","weapon_sawedoff","weapon_nova","weapon_aug","weapon_m249","weapon_negev","weapon_galilar","weapon_sg556","weapon_m4a1_silencer","weapon_m4a1","weapon_famas","weapon_ak47","weapon_ssg08","weapon_g3sg1","weapon_scar20","weapon_awp","weapon_mac10","weapon_ump45","weapon_hkp2000","weapon_usp_silencer","weapon_p250","weapon_fiveseven","weapon_p90"};
@@ -44,7 +34,6 @@ int x = MAXPLAYERS+1;
 
 public OnPluginStart()
 {
-	//_WeaponPushScale = CreateConVar("sm_weaponGrenadeScale","1.0","Scale of how much a single shot moves a grenade. Setting to 0 will disable.");
 	RegAdminCmd("sm_SetGrenadeScale", SetGrenadeScale, ADMFLAG_ROOT, "Sets how far grenades will fly depending on weapon damage ( def. 1 )");
 	HookEvent("bullet_impact", Event_BulletImpact, EventHookMode_Post);
 }
@@ -67,8 +56,8 @@ public Action SetGrenadeScale(int client, int args)
 	return Plugin_Handled;
 }
 
-public Action Event_BulletImpact(Event event, const char[] name, bool dontBroadcast){
-
+public Action Event_BulletImpact(Event event, const char[] name, bool dontBroadcast)
+{
 	clientPlayer = GetClientOfUserId(event.GetInt("userid"));
 	
 	GetClientName(clientPlayer,NameTest,sizeof(NameTest));
