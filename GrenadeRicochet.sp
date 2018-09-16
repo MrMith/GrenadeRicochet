@@ -111,4 +111,4 @@ public int caliberScale(char[] weaponNameCal)
 	return -1;
 }
 
-//All of this isn't mine copy and paste is the best :)
+//All of this isn't mine.
