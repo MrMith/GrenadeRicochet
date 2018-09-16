@@ -9,14 +9,17 @@ public Plugin:myinfo =
 	name =  "Grenade Ricochet",
 	author = "Mith",
 	description = "When someone shoots a grenade instead of tanking through it, it rebounds depending on the player's weapon damage.",
-	version = "1.0",
+	version = "1.1",
 	url = ""
 };
 
 //weapon name -> weapon damage ex. _WeaponNames[0][0] = "weapon_deagle", _WeaponDamage[0][0] = 63.
-char _WeaponNames[][] = {"weapon_deagle","weapon_revolver","weapon_glock","weapon_elite","weapon_tec9","weapon_mp9","weapon_mp7","weapon_bizon","weapon_mp5sd","weapon_cz75a","weapon_xm1014","weapon_mag7","weapon_sawedoff","weapon_nova","weapon_aug","weapon_m249","weapon_negev","weapon_galilar","weapon_sg556","weapon_m4a1_silencer","weapon_m4a1","weapon_famas","weapon_ak47","weapon_ssg08","weapon_g3sg1","weapon_scar20","weapon_awp","weapon_mac10","weapon_ump45","weapon_hkp2000","weapon_usp_silencer","weapon_p250","weapon_fiveseven","weapon_p90"};
-int _WeaponDamage[][] = {63,86,30,38,33,26,29,27,27,31,17,30,32,26,28,32,35,30,30,33,33,30,36,88,80,80,115,29,35,35,35,38,32,26};
-
+char _WeaponNames[][] 		= {"weapon_deagle","weapon_revolver","weapon_glock","weapon_elite","weapon_tec9","weapon_mp9","weapon_mp7","weapon_bizon","weapon_mp5sd","weapon_cz75a","weapon_xm1014","weapon_mag7","weapon_sawedoff","weapon_nova","weapon_aug","weapon_m249","weapon_negev","weapon_galilar","weapon_sg556","weapon_m4a1_silencer","weapon_m4a1","weapon_famas","weapon_ak47","weapon_ssg08","weapon_g3sg1","weapon_scar20","weapon_awp","weapon_mac10","weapon_ump45","weapon_hkp2000","weapon_usp_silencer","weapon_p250","weapon_fiveseven","weapon_p90"};
+//int _WeaponDamage[][] 		= {63,86,30,38,33,26,29,27,27,31,17,30,32,26,28,32,35,30,30,33,33,30,36,88,80,80,115,29,35,35,35,38,32,26};
+//int _WeaponBulletEnergy[][] = {1650,1965,481,481,481,481,447,481,481,490,484,423,423,376,1755,1755,1755,1755,1755,1755,1755,1755,3304,3304,3304,3304,6734,483,483,686,483,686,400,400};
+new Float:_WeaponNormalized[][] = {1.136,1.221,1.019,1.024,1.021,1.016,1.017,1.017,1.017,1.020,1.011,1.017,1.018,1.013,1.064,1.073,1.080,1.069,1.069,1.076,1.076,1.069,1.155,1.380,1.345,1.345,2.012,1.018,1.022,1.031,1.022,1.034,1.017,1.014};
+// grenade is 0.4 kg so calulated its velocity based off of v = (2*energy)/mass then Normalized the data™ but I didnt want the lowest to be 0 so i did ((velocity * weaponDamage)[this where i removed min velocity]) / (Max velocity - Min velocity)+1)
+// idk thats prob not the way to do it at ALL but i stayed up all night and got a idea in the middle of mowing the lawn.
 new Float:_WeaponPushScale = 1.0;
 char strName[128];
 new String:weaponName[256];
@@ -83,7 +86,7 @@ public Action Event_BulletImpact(Event event, const char[] name, bool dontBroadc
 				GetClientWeapon(clientPlayer,weaponName,sizeof(weaponName));
 				
 				GetEntPropVector(x, Prop_Data, "m_vecVelocity", vector);
-				ScaleVector(vector, _WeaponPushScale * (caliberScale(weaponName) * 0.01));
+				ScaleVector(vector, _WeaponPushScale * (caliberScale(weaponName)));
 				speed = GetVectorLength(vector);
 				GetClientEyeAngles(clientPlayer, ang);
 				ang[0] *= -1.0;
@@ -105,10 +108,10 @@ public int caliberScale(char[] weaponNameCal)
 	{
 		if(StrEqual(weaponNameCal, _WeaponNames[I][0] ,false))
 		{
-			return _WeaponDamage[I][0];
+			return view_as<int>(_WeaponNormalized[I][0]);
 		}
 	}
-	return -1;
+	return 0;
 }
 
 //All of this isn't mine.
